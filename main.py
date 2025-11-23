@@ -1,4 +1,3 @@
-# main.py (trimmed)
 import os
 from typing import List, Any
 from langchain_community.document_loaders import TextLoader
@@ -7,10 +6,9 @@ from langchain_community.vectorstores import Chroma
 from langchain_community.llms import Ollama
 from sentence_transformers import SentenceTransformer
 
-# try the uploaded PDF first, else speech.txt
-speech_path = r"/mnt/data/AI Intern_Assignment Test_KalpIT@1 (1).pdf"
-if not os.path.exists(speech_path):
-    speech_path = "speech.txt"
+
+
+speech_path = "speech.txt"
 
 class E:
     def __init__(self, m="all-MiniLM-L6-v2"):
@@ -74,7 +72,6 @@ def call_llm(llm, prompt: str) -> str:
     return str(r)
 
 def retrieve(retriever, q, k=3):
-    # try common methods; if method requires run_manager, call with run_manager=None
     names = ("get_relevant_documents", "_get_relevant_documents", "retrieve", "get_relevant")
     for n in names:
         if hasattr(retriever, n):
