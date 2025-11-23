@@ -1,16 +1,3 @@
-# evaluation.py (final)
-"""
-Evaluation script (final)
-- Reads corpus/*.txt and test_dataset.json from repo root
-- Builds Chroma DBs for chunk sizes and runs retrieval+generation
-- Saves results to results/test_results.json
-- Uses a SentenceTransformer wrapper (STEmbeddings) compatible with Chroma
-Notes:
-- Corpus must be in ./corpus/*.txt (speech1.txt ... speech6.txt)
-- test_dataset.json must be a flat list of question objects in repo root
-- Uploaded file path (not used directly): /mnt/data/AI Intern_Assignment Test_KalpIT@1 (1).pdf
-"""
-
 import os
 import json
 import argparse
@@ -27,8 +14,7 @@ CHUNK_CONFIGS = {
     "large": {"chunk_size": 900, "chunk_overlap": 150},
 }
 EMBED_MODEL_NAME = "all-MiniLM-L6-v2"
-# Local uploaded PDF path (kept for traceability; not used by default)
-UPLOADED_PDF_PATH = "/mnt/data/AI Intern_Assignment Test_KalpIT@1 (1).pdf"
+
 
 # ---- Libraries ----
 from sentence_transformers import SentenceTransformer
@@ -38,7 +24,7 @@ from langchain_community.llms import Ollama
 
 from rouge_score.rouge_scorer import RougeScorer
 from sklearn.metrics.pairwise import cosine_similarity
-from nltk.translate.bleu_score import sentence_bleu  # we'll pass token lists we generate
+from nltk.translate.bleu_score import sentence_bleu  
 
 # ---- Utilities ----
 _token_re = re.compile(r"\w+")
@@ -169,7 +155,6 @@ def score_texts(gen: str, gold: str, embed_model: STEmbeddings):
     except Exception:
         bleu = 0.0
     try:
-        # use the underlying SentenceTransformer model for embeddings
         v = embed_model.model.encode([gen or "", gold or ""], show_progress_bar=False)
         cos = float(cosine_similarity([v[0]], [v[1]])[0][0])
     except Exception:

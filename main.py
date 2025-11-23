@@ -7,7 +7,6 @@ from langchain_community.llms import Ollama
 from sentence_transformers import SentenceTransformer
 
 
-
 speech_path = "speech.txt"
 
 class E:
